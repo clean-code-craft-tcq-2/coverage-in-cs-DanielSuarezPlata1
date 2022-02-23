@@ -15,6 +15,7 @@ namespace TypewiseAlert
 
                 return true;
 
+            }
             catch (Exception ex)
             {
                 Console.WriteLine("The email cannot be sent: {0}", ex.Message);
