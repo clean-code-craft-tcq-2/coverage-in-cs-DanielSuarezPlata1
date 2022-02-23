@@ -8,6 +8,8 @@ namespace TypewiseAlert
     {
         public bool SendEmail(string recepient)
         {
+            Console.WriteLine("All ok :)");
+
             return true;
         }
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TypewiseAlert
 {
-    public class AlerterContext
+    public class EmailContext
     {
         public ISendEmail breachAlerter;
 
@@ -23,7 +23,7 @@ namespace TypewiseAlert
             this.recepient = recepient;
         }
 
-        public void Execute()
+        public void Send()
         {
             this.sent = this.breachAlerter.SendEmail(recepient);
         }

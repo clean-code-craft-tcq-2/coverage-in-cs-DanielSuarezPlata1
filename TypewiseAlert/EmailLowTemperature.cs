@@ -8,10 +8,21 @@ namespace TypewiseAlert
     {
         public bool SendEmail(string recepient)
         {
-            Console.WriteLine("To: {0}\n", recepient);
-            Console.WriteLine("Hi, the temperature is too low\n");
+            try
+            {
+                Console.WriteLine("To: {0}\n", recepient);
+                Console.WriteLine("Hi, the temperature is too low\n");
 
-            return true;
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("The email cannot be sent: {0}", ex.Message);
+
+                return false;
+            }
+
+            
         }
     }
 }

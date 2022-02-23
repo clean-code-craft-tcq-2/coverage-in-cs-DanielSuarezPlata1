@@ -60,12 +60,11 @@ namespace TypewiseAlert
             public string brand;
         }
 
+
         public static void CheckAndAlert(
             AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
 
-            BreachType breachType = ClassifyTemperatureBreach(
-            batteryChar.coolingType, temperatureInC
-            );
+            BreachType breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
 
             switch(alertTarget) {
 
@@ -100,15 +99,15 @@ namespace TypewiseAlert
 
             string recepient = "a.b@c.com";
 
-            AlerterContext alerterContext = new AlerterContext();
+            EmailContext emailContext = new EmailContext();
 
-            alerterContext.SetBreachAlerter(breachAlerters[breachType]);
+            emailContext.SetBreachAlerter(breachAlerters[breachType]);
 
-            alerterContext.SetRecepient(recepient);
+            emailContext.SetRecepient(recepient);
 
-            alerterContext.Execute();
+            emailContext.Send();
 
-            return alerterContext.sent;
+            return emailContext.sent;
 
         }
 
