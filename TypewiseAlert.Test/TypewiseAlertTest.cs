@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using TypewiseAlert.AlertTargets;
 using Xunit;
 using static TypewiseAlert.TypewiseAlert;
 
@@ -30,12 +32,72 @@ namespace TypewiseAlert.Test
             Assert.True(TypewiseAlert.ClassifyTemperatureBreach(CoolingType.MED_ACTIVE_COOLING, 24) == TypewiseAlert.BreachType.NORMAL);
         }
 
+        static Dictionary<BreachType, ISendEmail> breachAlerters = new Dictionary<BreachType, ISendEmail>{
+
+            {BreachType.TOO_LOW, new EmailLowTemperature() },
+            {BreachType.TOO_HIGH, new EmailHighTemparature() },
+            {BreachType.NORMAL, new EmailLowTemperature() },
+
+        };
+
         [Fact]
-        public void SendToEmailTests()
+        public void SendAlertsToEmailTests()
         {
-            Assert.True(TypewiseAlert.SendToEmail(BreachType.TOO_HIGH) == true);
-            Assert.True(TypewiseAlert.SendToEmail(BreachType.TOO_LOW) == true);
-            Assert.True(TypewiseAlert.SendToEmail(BreachType.NORMAL) == true);
+            AlertContext alertContext = new AlertContext();
+
+            alertContext.SetTarget(new SendToEmail());
+
+            // Testing Email with Breach type TOO_HIGH
+            alertContext.SetBreachType(BreachType.TOO_HIGH);
+
+            alertContext.Send();
+
+            Assert.True(alertContext.sent == true);
+
+            // Testing Email with Breach type TOO_LOW
+            alertContext.SetBreachType(BreachType.TOO_LOW);
+
+            alertContext.Send();
+
+            Assert.True(alertContext.sent == true);
+
+            // Testing Email with Breach type NORMAL
+            alertContext.SetBreachType(BreachType.NORMAL);
+
+            alertContext.Send();
+
+            Assert.True(alertContext.sent == true);
+
+        }
+
+        [Fact]
+        public void SendAlertsToControllerTests()
+        {
+            AlertContext alertContext = new AlertContext();
+
+            alertContext.SetTarget(new SendToController());
+
+            // Testing controller with Breach type TOO_HIGH
+            alertContext.SetBreachType(BreachType.TOO_HIGH);
+
+            alertContext.Send();
+
+            Assert.True(alertContext.sent == true);
+
+            // Testing controller with Breach type TOO_LOW
+            alertContext.SetBreachType(BreachType.TOO_LOW);
+
+            alertContext.Send();
+
+            Assert.True(alertContext.sent == true);
+
+            // Testing controller with Breach type NORMAL
+            alertContext.SetBreachType(BreachType.NORMAL);
+
+            alertContext.Send();
+
+            Assert.True(alertContext.sent == true);
+
         }
     }
 }

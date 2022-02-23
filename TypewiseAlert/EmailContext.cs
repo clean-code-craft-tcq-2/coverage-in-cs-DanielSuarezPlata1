@@ -6,26 +6,26 @@ namespace TypewiseAlert
 {
     public class EmailContext
     {
-        public ISendEmail breachAlerter;
+        public ISendEmail _breachAlerter;
 
-        public string recepient;
+        public string _recepient;
 
         public bool sent = false;
 
         public void SetBreachAlerter(ISendEmail breachAlerter)
         {
-            this.breachAlerter = breachAlerter;
+            this._breachAlerter = breachAlerter;
             
         }
 
         public void SetRecepient(string recepient)
         {
-            this.recepient = recepient;
+            this._recepient = recepient;
         }
 
         public void Send()
         {
-            this.sent = this.breachAlerter.SendEmail(recepient);
+            this.sent = this._breachAlerter.SendEmail(this._recepient);
         }
     }
 }

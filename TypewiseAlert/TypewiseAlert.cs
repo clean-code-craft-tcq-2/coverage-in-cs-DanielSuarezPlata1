@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TypewiseAlert.AlertTargets;
 
 namespace TypewiseAlert
 {
@@ -60,54 +61,28 @@ namespace TypewiseAlert
             public string brand;
         }
 
+        static Dictionary<AlertTarget, ISendAlert> alertTargets = new Dictionary<AlertTarget, ISendAlert>{
 
-        public static void CheckAndAlert(
+            {AlertTarget.TO_CONTROLLER, new SendToController() },
+            {AlertTarget.TO_EMAIL, new SendToEmail() },
+
+        };
+
+        public static bool CheckAndAlert(
             AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) {
 
             BreachType breachType = ClassifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
 
-            switch(alertTarget) {
+            AlertContext alertContext = new AlertContext();
 
-                case AlertTarget.TO_CONTROLLER:
-                    SendToController(breachType);
-                    break;
+            alertContext.SetTarget(alertTargets[alertTarget]);
 
-                case AlertTarget.TO_EMAIL:
-                    SendToEmail(breachType);
-                    break;
+            alertContext.SetBreachType(breachType);
 
-            }
+            alertContext.Send();
 
-        }
-        public static void SendToController(BreachType breachType) {
+            return alertContext.sent;
 
-            const ushort header = 0xfeed;
-
-            Console.WriteLine("{} : {}\n", header, breachType);
-
-        }
-
-        static Dictionary<BreachType, ISendEmail> breachAlerters = new Dictionary<BreachType, ISendEmail>{
-
-            {BreachType.TOO_LOW, new EmailLowTemperature() },
-            {BreachType.TOO_HIGH, new EmailHighTemparature() },
-            {BreachType.NORMAL, new EmailLowTemperature() },
-
-        };
-
-        public static bool SendToEmail(BreachType breachType) {
-
-            string recepient = "a.b@c.com";
-
-            EmailContext emailContext = new EmailContext();
-
-            emailContext.SetBreachAlerter(breachAlerters[breachType]);
-
-            emailContext.SetRecepient(recepient);
-
-            emailContext.Send();
-
-            return emailContext.sent;
 
         }
 
