@@ -6,6 +6,6 @@ namespace TypewiseAlert
 {
     public interface ISendEmail
     {
-        void SendEmail(string recepient);
+        bool SendEmail(string recepient);
     }
 }

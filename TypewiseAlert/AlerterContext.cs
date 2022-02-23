@@ -6,13 +6,15 @@ namespace TypewiseAlert
 {
     public class AlerterContext
     {
-        public ISendEmail strategy;
+        public ISendEmail breachAlerter;
 
         public string recepient;
 
-        public void SetStrategy(ISendEmail sendEmail)
+        public bool sent = false;
+
+        public void SetBreachAlerter(ISendEmail breachAlerter)
         {
-            this.strategy = sendEmail;
+            this.breachAlerter = breachAlerter;
             
         }
 
@@ -23,7 +25,7 @@ namespace TypewiseAlert
 
         public void Execute()
         {
-            this.strategy.SendEmail(recepient);
+            this.sent = this.breachAlerter.SendEmail(recepient);
         }
     }
 }

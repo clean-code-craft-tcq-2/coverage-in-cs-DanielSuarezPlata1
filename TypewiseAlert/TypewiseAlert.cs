@@ -69,13 +69,13 @@ namespace TypewiseAlert
 
             switch(alertTarget) {
 
-            case AlertTarget.TO_CONTROLLER:
-                SendToController(breachType);
-                break;
+                case AlertTarget.TO_CONTROLLER:
+                    SendToController(breachType);
+                    break;
 
-            case AlertTarget.TO_EMAIL:
-                SendToEmail(breachType);
-                break;
+                case AlertTarget.TO_EMAIL:
+                    SendToEmail(breachType);
+                    break;
 
             }
 
@@ -88,26 +88,27 @@ namespace TypewiseAlert
 
         }
 
+        static Dictionary<BreachType, ISendEmail> breachAlerters = new Dictionary<BreachType, ISendEmail>{
 
-        public static void SendToEmail(BreachType breachType) {
+            {BreachType.TOO_LOW, new EmailLowTemperature() },
+            {BreachType.TOO_HIGH, new EmailHighTemparature() },
+            {BreachType.NORMAL, new EmailLowTemperature() },
+
+        };
+
+        public static bool SendToEmail(BreachType breachType) {
 
             string recepient = "a.b@c.com";
 
             AlerterContext alerterContext = new AlerterContext();
 
-            if (breachType == BreachType.TOO_LOW)
-            {
-                alerterContext.SetStrategy(new EmailLowTemperature());
-
-            }
-            else if (breachType == BreachType.TOO_HIGH)
-            {
-                alerterContext.SetStrategy(new EmailLowTemperature());
-            }
+            alerterContext.SetBreachAlerter(breachAlerters[breachType]);
 
             alerterContext.SetRecepient(recepient);
 
             alerterContext.Execute();
+
+            return alerterContext.sent;
 
         }
 

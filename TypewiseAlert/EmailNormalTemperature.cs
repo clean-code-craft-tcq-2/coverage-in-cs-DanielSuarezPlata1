@@ -4,7 +4,11 @@ using System.Text;
 
 namespace TypewiseAlert
 {
-    class EmailNormalTemperature
+    public class EmailNormalTemperature : ISendEmail
     {
+        public bool SendEmail(string recepient)
+        {
+            return true;
+        }
     }
 }

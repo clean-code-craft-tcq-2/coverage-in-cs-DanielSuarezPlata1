@@ -6,11 +6,12 @@ namespace TypewiseAlert
 {
     public class EmailHighTemparature : ISendEmail
     {
-        public void SendEmail(string recepient)
+        public bool SendEmail(string recepient)
         {
-            Console.WriteLine("To: {}\n", recepient);
+            Console.WriteLine("To: {0}\n", recepient);
             Console.WriteLine("Hi, the temperature is too high\n");
 
+            return true;
         }
     }
 }

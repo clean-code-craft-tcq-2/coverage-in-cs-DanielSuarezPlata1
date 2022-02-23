@@ -30,5 +30,12 @@ namespace TypewiseAlert.Test
             Assert.True(TypewiseAlert.ClassifyTemperatureBreach(CoolingType.MED_ACTIVE_COOLING, 24) == TypewiseAlert.BreachType.NORMAL);
         }
 
+        [Fact]
+        public void SendToEmailTests()
+        {
+            Assert.True(TypewiseAlert.SendToEmail(BreachType.TOO_HIGH) == true);
+            Assert.True(TypewiseAlert.SendToEmail(BreachType.TOO_LOW) == true);
+            Assert.True(TypewiseAlert.SendToEmail(BreachType.NORMAL) == true);
+        }
     }
 }
