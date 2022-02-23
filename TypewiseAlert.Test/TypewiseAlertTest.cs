@@ -32,14 +32,6 @@ namespace TypewiseAlert.Test
             Assert.True(TypewiseAlert.ClassifyTemperatureBreach(CoolingType.MED_ACTIVE_COOLING, 24) == TypewiseAlert.BreachType.NORMAL);
         }
 
-        static Dictionary<BreachType, ISendEmail> breachAlerters = new Dictionary<BreachType, ISendEmail>{
-
-            {BreachType.TOO_LOW, new EmailLowTemperature() },
-            {BreachType.TOO_HIGH, new EmailHighTemparature() },
-            {BreachType.NORMAL, new EmailLowTemperature() },
-
-        };
-
         [Fact]
         public void SendAlertsToEmailTests()
         {
